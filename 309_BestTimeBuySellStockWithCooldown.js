@@ -10,6 +10,9 @@
 // After you sell your stock, you cannot buy stock on next day. 
 // (ie, cooldown 1 day)
 
+
+// I cheated and translated this C++ solution to JS and went crazy with reduce
+// https://leetcode.com/discuss/87346/c-greedy-solution-o-n-time-%26-o-1-space
 /**
  * @param {number[]} prices
  * @return {number}
@@ -37,7 +40,7 @@ var maxProfit = function(prices) {
 };
 
 // Example
-prices = [1, 2, 3, 0, 2]
+prices = [1, 2, 5, 0, 2]
 // maxProfit = 3
 // transactions = [buy, sell, cooldown, buy, sell]
 console.log(maxProfit(prices));
