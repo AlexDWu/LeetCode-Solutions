@@ -31,6 +31,7 @@ var maxProfit = function(prices) {
     accum.prev_profit = accum.profit;
     // sell if we make more $$$ than before
     accum.profit = Math.max(accum.profit, price - accum.buy);
+    console.log("index:", index, ", price:", price, accum);
     return accum;
   }, {
     buy: Infinity, // the price of the stock when we bought it
@@ -40,7 +41,7 @@ var maxProfit = function(prices) {
 };
 
 // Example
-prices = [1, 2, 5, 0, 2]
+prices = [-1, 2, -2, -2, 2, 50, 20, 30, 60, 100, 30]
 // maxProfit = 3
 // transactions = [buy, sell, cooldown, buy, sell]
 console.log(maxProfit(prices));
