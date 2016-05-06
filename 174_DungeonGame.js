@@ -33,34 +33,50 @@
  * @return {number}
  */
 var calculateMinimumHP = function(dungeon) {
-    return 1 + (-1 * dungeon.map(function(row, row_index){
-       return row.map(function(cell, col_index){
-            if(row_index === 0 ){ // this is the first row
-                if(col_index > 0){ // if this isn't the top left corner
-                    // look to the left and add that value to this space's value
-                    return cell + dungeon[row_index][col_index - 1];
-                } else {
-                    // don't do anything if row_index === 0 and col_index === 0
-                    return cell;
-                }
-            } else {
-                if(col_index > 0){ // this isn't the left-most column
-                    //check if the the top or the left deals more damage
-                    if(dungeon[row_index - 1][col_index] > dungeon[row_index][col_index - 1]){
-                        return cell + dungeon[row_index - 1][col_index];
-                    } else {
-                        return cell + dungeon[row_index][col_index - 1];
-                    }
-                } else { // this is the left-most column
-                    // only get things from above
-                    return cell + dungeon[row_index - 1][col_index];
-                }
-            }
-        })
-    })[dungeon.length - 1][dungeon[0].length - 1]);
+  var requiredHPMap = [];
+  for (var i = dungeon.length - 1; i >= 0; i--){
+    var row = []
+    for(var k = dungeon[0].length -1; k >= 0; k--){
+      // look to this cells right and bottom and choose the cell that requires the lesser amount of HP
+      var move;
+      // this is the bottom right corner
+      if(k >= dungeon[0].length - 1 && i >= dungeon.length - 1){
+        move = 1;
+      }
+      // this is the right most cell
+      else if(k >= dungeon[0].length - 1){
+        // get the cell below
+        move = requiredHPMap[i+1][k];
+      }
+      // this is the bottom row 
+      else if ( i >= dungeon.length - 1){
+        // get the cell to the right
+        move = row[k+1]
+      } else {
+        move = Math.min(requiredHPMap[i+1][k], row[k+1]);
+      }
+      // add that to the amount of HP required to enter this cell.
+      if(dungeon[i][k] >= move){
+        row[k] = 1;
+      } else {
+        row[k] = move - dungeon[i][k];
+      }
+    }
+    requiredHPMap[i] = row
+  }
+  console.log(requiredHPMap);
+  return requiredHPMap[0][0];
 };
 
-console.log(calculateMinimumHP([
-    [-2, -3 , 3],
-    [-5, -10, 1],
-    [10, 30, -5]]));
+console.assert(calculateMinimumHP([
+  [-2, -3 , 3],
+  [-5, -10, 1],
+  [10, 30, -5]]) === 7, "Minimum HP of given map should be 7");
+console.assert(calculateMinimumHP([
+  [0,0,0],
+  [0,0,0],
+  [0,0,0]]) === 1, "Minimum HP of all empty map to be 1");
+console.assert(calculateMinimumHP([
+  [10,10,10],
+  [10,10,10],
+  [10,10,10]]) === 1, "Minimum HP of all positive map to be 1");
