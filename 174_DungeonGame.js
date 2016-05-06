@@ -64,7 +64,6 @@ var calculateMinimumHP = function(dungeon) {
     }
     requiredHPMap[i] = row
   }
-  console.log(requiredHPMap);
   return requiredHPMap[0][0];
 };
 
@@ -80,3 +79,4 @@ console.assert(calculateMinimumHP([
   [10,10,10],
   [10,10,10],
   [10,10,10]]) === 1, "Minimum HP of all positive map to be 1");
+console.assert(calculateMinimumHP([[0]]) === 1, 'Minimum HP of just 0 map to be 1');
