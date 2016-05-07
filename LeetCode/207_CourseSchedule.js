@@ -14,8 +14,8 @@ var canFinish = function(numCourses, prerequisites) {
 
   var hasCycle = function(adjacencyList, node, inStack, visited){
     // initialization things
-    // inStack = inStack || {};
-    // visited = visited || {};
+    inStack = inStack || {};
+    visited = visited || {};
     if(node === undefined ){
       return Object.keys(adjacencyList).some(function (node){
         if(!visited[node]){
@@ -40,7 +40,7 @@ var canFinish = function(numCourses, prerequisites) {
     // node has been visited
     return false;
   }
-  return !hasCycle(adjacency,undefined, {},{});
+  return !hasCycle(adjacency);
 };
 console.assert(canFinish(2, [[1,0]]) === true, "2, [[1,0]] can be finished");
 console.assert(canFinish(2, [[0,1],[1, 0]]) === false, "2, [[0,1],[1, 0]] can not be finished");
